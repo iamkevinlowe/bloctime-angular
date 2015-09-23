@@ -1,9 +1,15 @@
 angular.module('blocTime', ['filters', 'services'])
-  .controller('MainCtrl', ['$scope', 'Timer', function($scope, Timer) {
+  .controller('MainCtrl', ['$scope', 'Timer', 'Tasks', function($scope, Timer, Tasks) {
     $scope.seconds = Timer.getWorkTime();
     $scope.buttonWork = Timer.getWorkLabel();
     $scope.buttonRest = Timer.getRestLabel();
     $scope.onBreak = false;
+
+    $scope.tasks = Tasks.all;
+    $scope.addTask = function() {
+      $scope.tasks.$add({task: $scope.task});
+      $scope.task = "";
+    };
   }])
   .directive('timer', ['$interval', 'Timer', function($interval, Timer) {
 
@@ -49,7 +55,7 @@ angular.module('filters', [])
     };
   });
 
-angular.module('services', [])
+angular.module('services', ['firebase'])
   .value('TIMES', {
     WORK: 1500,
     REST: 300,
@@ -125,5 +131,14 @@ angular.module('services', [])
       playSound: function() {
         sound.play();
       }
+    };
+  }])
+  .factory('Tasks', ['$firebaseArray', function($firebaseArray) {
+    var ref = new Firebase('https://blazing-fire-9765.firebaseio.com/');
+
+    var tasks = $firebaseArray(ref);
+
+    return {
+      all: tasks
     };
   }]);

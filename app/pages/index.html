@@ -8,8 +8,18 @@
 </head>
 <body ng-controller="MainCtrl">
   
-  <div class="row">
-    <div class="col-md-4 col-md-offset-4 timer-group">
+  <div class="task-pane">
+    <span class="task-heading">Task History</span>
+    <input class="form-control" type="text" ng-model="task">
+    <button class="btn btn-task" ng-click="addTask()">Add task</button>
+
+    <div class="task-list">
+      <div class="task-item" ng-repeat="task in tasks">{{task.task}}</div>
+    </div>
+  </div>
+
+  <div class="timer-pane">
+    <div class="timer-group">
       <timer seconds="seconds"></timer>
       <button class="btn btn-timer" ng-hide="onBreak" ng-click="toggleWork()">{{buttonWork}}</button>
       <button class="btn btn-timer" ng-show="onBreak" ng-click="toggleRest()">{{buttonRest}}</button>
@@ -18,6 +28,8 @@
 
   
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.min.js"></script>
+  <script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.0/buzz.min.js"></script>
   <script src="/scripts/app.js"></script>
 </body>

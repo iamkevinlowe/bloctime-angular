@@ -1,6 +1,12 @@
+.timer-pane {
+  position: relative;
+  width: 66.7%;
+  float: left;
+}
+
 .timer-group {
   text-align: center;
-  margin-top: 200px;
+  margin: 200px auto;
 }
 
 .timer-group .timer-time {
@@ -10,7 +16,7 @@
 }
 
 .timer-group .btn-timer {
-  color: white;
+  color: #FFFFFF;
   font-size: 2rem;
   background-color: #A9A9A9;
   width: 125px;
@@ -18,4 +24,41 @@
 
 .timer-group .btn-timer:hover {
   border-color: #777777;
+}
+
+.task-pane {
+  background-color: #CCCCCC;
+  height: 100vh;
+  width: 33.3%;
+  min-width: 160px;
+  float: left;
+  padding: 10px;
+  text-align: center;
+}
+
+.task-pane .task-heading {
+  color: #666666;
+  font-size: 3rem;
+}
+
+.task-pane .btn-task {
+  color: #FFFFFF;
+  font-size: 1.3rem;
+  background-color: #A9A9A9;
+  float: right;
+  margin: 5px;
+}
+
+.task-pane .task-list {
+  clear: both;
+  padding-top: 10px;
+}
+
+.task-pane .task-item {
+  color: #FFFFFF;
+  font-size: 1.7rem;
+  padding: 8px;
+  margin: 5px;
+  background-color: #BBBBBB;
+  border-radius: 14px;
 }
