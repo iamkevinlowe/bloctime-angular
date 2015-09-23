@@ -26,6 +26,11 @@ angular.module('blocTime', ['filters', 'services'])
             Timer.resetTimer($scope);
           }
         };
+        $scope.$watch('seconds', function(newVal) {
+          if (newVal === 0) {
+            Timer.playSound();
+          }
+        });
       }
     };
   }]);
@@ -58,6 +63,9 @@ angular.module('services', [])
   .service('Timer', ['TIMES', 'LABELS', '$interval', function(TIMES, LABELS, $interval) {
     var timerInterval = null;
     var timesCompleted = 0;
+    var sound = new buzz.sound('/assets/sounds/elevator-ding.mp3', {
+      preload: true
+    });
 
     return {
       getWorkTime: function() {
@@ -113,6 +121,9 @@ angular.module('services', [])
 
         $interval.cancel(timerInterval);
         timerInterval = null;
+      },
+      playSound: function() {
+        sound.play();
       }
     };
   }]);
