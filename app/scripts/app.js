@@ -47,7 +47,8 @@ angular.module('filters', [])
 angular.module('services', [])
   .value('TIMES', {
     WORK: 1500,
-    REST: 300
+    REST: 300,
+    LONGREST: 1800
   })
   .value('LABELS', {
     WORK: 'Start Work',
@@ -56,6 +57,7 @@ angular.module('services', [])
   })
   .service('Timer', ['TIMES', 'LABELS', '$interval', function(TIMES, LABELS, $interval) {
     var timerInterval = null;
+    var timesCompleted = 0;
 
     return {
       getWorkTime: function() {
@@ -88,7 +90,12 @@ angular.module('services', [])
               scope.buttonWork = LABELS.WORK;
               scope.onBreak = false;
             } else {
-              scope.seconds = TIMES.REST;
+              if (++timesCompleted === 4) {
+                timesCompleted = 0;
+                scope.seconds = TIMES.LONGREST;
+              } else {
+                scope.seconds = TIMES.REST;
+              }
               scope.buttonRest = LABELS.REST;
               scope.onBreak = true;
             }
