@@ -7,7 +7,10 @@ angular.module('blocTime', ['filters', 'services'])
 
     $scope.tasks = Tasks.all;
     $scope.addTask = function() {
-      $scope.tasks.$add({task: $scope.task});
+      $scope.tasks.$add({
+        task: $scope.task,
+        created_at: Date.now()
+      });
       $scope.task = "";
     };
   }])

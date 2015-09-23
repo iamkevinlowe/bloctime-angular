@@ -14,7 +14,7 @@
     <button class="btn btn-task" ng-click="addTask()">Add task</button>
 
     <div class="task-list">
-      <div class="task-item" ng-repeat="task in tasks">{{task.task}}</div>
+      <div class="task-item" ng-repeat="task in tasks | orderBy: 'created_at': true">{{task.task}}</div>
     </div>
   </div>
 
