@@ -1,58 +1,32 @@
-angular.module('blocTime', ['filters'])
-  .controller('MainCtrl', ['$scope', '$interval', function($scope, $interval) {
-    $scope.timerData = {
-      seconds: 1500,
-      buttonLabel: "Start"
-    };
+angular.module('blocTime', ['filters', 'services'])
+  .controller('MainCtrl', ['$scope', 'Timer', function($scope, Timer) {
+    $scope.seconds = Timer.getWorkTime();
+    $scope.buttonWork = Timer.getWorkLabel();
+    $scope.buttonRest = Timer.getRestLabel();
+    $scope.onBreak = false;
   }])
-  .directive('timerCountdown', ['$interval', function($interval) {
-
-    var timerInterval = null;
-
-    function startTimer(scope) {
-      timerInterval = $interval(function() {
-        if (scope.data.seconds !== 0) {
-          scope.data.seconds--;
-        } else {
-          timesUp(scope);
-        }
-      }, 1000);
-      scope.data.buttonLabel = "Reset";
-    }
-
-    function resetTimer(scope) {
-      $interval.cancel(timerInterval);
-      timerInterval = null;
-      scope.data = {
-        seconds: 1500,
-        buttonLabel: "Start"
-      };
-    }
-
-    function timesUp(scope) {
-      $interval.cancel(timerInterval);
-      timerInterval = null;
-      alert("Time's up!");
-    }
-
-    function link(scope, element, attrs) {
-
-      scope.onTimerClick = function() {
-        if (scope.data.buttonLabel === "Start")
-          startTimer(scope);
-        else if (scope.data.buttonLabel === "Reset")
-          resetTimer(scope);
-      }
-    }
+  .directive('timer', ['$interval', 'Timer', function($interval, Timer) {
 
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: 'templates/timer-countdown.html',
-      scope: {
-        data: '=timerData'
-      },
-      link: link
+      templateUrl: 'templates/timer.html',
+      controller: function($scope) {
+        $scope.toggleWork = function() {
+          if ($scope.buttonWork === Timer.getWorkLabel()) {
+            Timer.startTimer($scope);
+          } else if ($scope.buttonWork === Timer.getResetLabel()) {
+            Timer.resetTimer($scope);
+          }
+        };
+        $scope.toggleRest = function() {
+          if ($scope.buttonRest === Timer.getRestLabel()) {
+            Timer.startTimer($scope);
+          } else if ($scope.buttonRest === Timer.getResetLabel()) {
+            Timer.resetTimer($scope);
+          }
+        };
+      }
     };
   }]);
 
@@ -69,3 +43,69 @@ angular.module('filters', [])
       return (minutes + ":" + seconds);
     };
   });
+
+angular.module('services', [])
+  .value('TIMES', {
+    WORK: 1500,
+    REST: 300
+  })
+  .value('LABELS', {
+    WORK: 'Start Work',
+    REST: 'Take Break',
+    RESET: 'Reset'
+  })
+  .service('Timer', ['TIMES', 'LABELS', '$interval', function(TIMES, LABELS, $interval) {
+    var timerInterval = null;
+
+    return {
+      getWorkTime: function() {
+        return TIMES.WORK;
+      },
+      getRestTime: function() {
+        return TIMES.REST;
+      },
+      getWorkLabel: function() {
+        return LABELS.WORK;
+      },
+      getRestLabel: function() {
+        return LABELS.REST;
+      },
+      getResetLabel: function() {
+        return LABELS.RESET;
+      },
+      startTimer: function(scope) {
+        scope.onBreak ? scope.buttonRest = LABELS.RESET : scope.buttonWork = LABELS.RESET;
+
+        timerInterval = $interval(function() {
+          if (scope.seconds !== 0) {
+            scope.seconds--;
+          } else if (scope.seconds <= 0) {
+            $interval.cancel(timerInterval);
+            timerInterval = null;
+
+            if (scope.onBreak) {
+              scope.seconds = TIMES.WORK;
+              scope.buttonWork = LABELS.WORK;
+              scope.onBreak = false;
+            } else {
+              scope.seconds = TIMES.REST;
+              scope.buttonRest = LABELS.REST;
+              scope.onBreak = true;
+            }
+          }
+        }, 1000);
+      },
+      resetTimer: function(scope) {
+        if (scope.onBreak) {
+          scope.buttonRest = LABELS.REST;
+          scope.seconds = TIMES.REST;
+        } else {
+          scope.buttonWork = LABELS.WORK;
+          scope.seconds = TIMES.WORK;
+        }
+
+        $interval.cancel(timerInterval);
+        timerInterval = null;
+      }
+    };
+  }]);

@@ -4,6 +4,7 @@
 }
 
 .timer-group .timer-time {
+  display: block;
   color: #808080;
   font-size: 4rem;
 }

@@ -10,7 +10,9 @@
   
   <div class="row">
     <div class="col-md-4 col-md-offset-4 timer-group">
-      <timer-countdown timer-data="timerData"></timer-countdown>
+      <timer seconds="seconds"></timer>
+      <button class="btn btn-timer" ng-hide="onBreak" ng-click="toggleWork()">{{buttonWork}}</button>
+      <button class="btn btn-timer" ng-show="onBreak" ng-click="toggleRest()">{{buttonRest}}</button>
     </div>
   </div>
 
