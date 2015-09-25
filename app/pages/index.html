@@ -14,15 +14,14 @@
     <button class="btn btn-task" ng-click="addTask()">Add task</button>
 
     <div class="task-list">
-      <div class="task-item" ng-repeat="task in tasks">{{task.task}}</div>
+      <div class="task-item" ng-repeat="task in tasks | orderBy: 'created_at': true">{{task.task}}</div>
     </div>
   </div>
 
   <div class="timer-pane">
     <div class="timer-group">
       <timer seconds="seconds"></timer>
-      <button class="btn btn-timer" ng-hide="onBreak" ng-click="toggleWork()">{{buttonWork}}</button>
-      <button class="btn btn-timer" ng-show="onBreak" ng-click="toggleRest()">{{buttonRest}}</button>
+      <button class="btn btn-timer" ng-click="toggleButton()">{{buttonLabel}}</button>
     </div>
   </div>
 
