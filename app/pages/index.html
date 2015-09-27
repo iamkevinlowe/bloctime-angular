@@ -10,18 +10,48 @@
   
   <div class="task-pane">
     <span class="task-heading">Task History</span>
-    <input class="form-control" type="text" ng-model="task">
-    <button class="btn btn-task" ng-click="addTask()">Add task</button>
-
-    <div class="task-list">
-      <div class="task-item" ng-repeat="task in tasks | orderBy: 'created_at': true">{{task.task}}</div>
-    </div>
+    <form>
+      <div class="form-group">
+        <input class="form-control" type="text" ng-model="task.name" placeholder="Enter task name">
+      </div>
+      <div class="form-inline">
+        <strong>Sessions required:</strong>
+        <select class="form-control" ng-model="task.workSessions">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+        <button type="submit" class="btn btn-task" ng-click="addTask()">Add task</button>
+      </div>
+    </form>
+    <hr>
+    <task-list></task-list>
   </div>
 
   <div class="timer-pane">
+    <div class="timer-work-session">
+      <p>
+        <strong>Current work session:</strong> {{currentTask.name}}
+        <br/>
+        <strong>Sessions completed:</strong> {{sessionsCompleted}}
+        <br/>
+        <strong>Interruptions:</strong> {{interruptions}}
+      </p>
+    </div>
+
     <div class="timer-group">
-      <timer seconds="seconds"></timer>
+      <timer-digital ng-show="timer == 'digital'"></timer-digital>
+      <timer-analog ng-show="timer == 'analog'"></timer-analog>
+
+      <form class="radio">
+        <label><input type="radio" ng-model="timer" value="digital">Digital</label>
+        <label><input type="radio" ng-model="timer" value="analog">Analog</label>
+      </form>
+
       <button class="btn btn-timer" ng-click="toggleButton()">{{buttonLabel}}</button>
+      <button class="btn btn-timer" ng-disabled="stopped" ng-click="togglePause()">{{buttonPause}}</button>
+      <p>{{timesCompleted}}</p>
     </div>
   </div>
 

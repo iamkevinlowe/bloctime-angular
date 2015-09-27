@@ -1,3 +1,7 @@
+strong {
+  color: #666666;
+}
+
 .timer-pane {
   position: relative;
   width: 66.7%;
@@ -6,7 +10,7 @@
 
 .timer-group {
   text-align: center;
-  margin: 200px auto;
+  margin: 100px auto;
 }
 
 .timer-group .timer-time {
@@ -45,20 +49,73 @@
   color: #FFFFFF;
   font-size: 1.3rem;
   background-color: #A9A9A9;
-  float: right;
-  margin: 5px;
-}
-
-.task-pane .task-list {
-  clear: both;
-  padding-top: 10px;
 }
 
 .task-pane .task-item {
+  position: relative;
   color: #FFFFFF;
   font-size: 1.7rem;
   padding: 8px;
   margin: 5px;
   background-color: #BBBBBB;
   border-radius: 14px;
+}
+
+.task-pane .task-item:hover {
+  background-color: #999999;
+}
+
+.task-pane .task-item .task-delete {
+  position: absolute;
+  right: 10px;
+  color: red;
+  cursor: pointer;
+}
+
+.task-pane .task-item p {
+  position: relative;
+}
+
+.task-pane .task-item .task-complete {
+  position: absolute;
+  right: 10px;
+  color: green;
+}
+
+.timer-group .analog {
+  position: relative;
+  margin: 10px auto;
+  border: 1px solid black;
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+}
+
+.timer-group .analog .second-hand {
+  position: absolute;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  height: 50%;
+  background-color: red;
+  transform-origin: bottom;
+  -webkit-transform-origin: bottom;
+  -moz-transform-origin: bottom;
+}
+
+.timer-group .analog .minute-hand {
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  width: 2px;
+  margin-left: -1px;
+  height: 40%;
+  background-color: black;
+  transform-origin: bottom;
+  -webkit-transform-origin: bottom;
+  -moz-transform-origin: bottom;
+}
+
+.radio {
+  text-align: center;
 }

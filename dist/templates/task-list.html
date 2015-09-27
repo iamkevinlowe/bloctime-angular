@@ -1,0 +1,14 @@
+<div class="task-list">
+  <div class="task-item" ng-mouseover="hover = true" ng-mouseleave="hover = false" ng-repeat="task in tasks | orderBy: 'created_at': true">
+    <p>
+      <span>{{task.name}}</span>
+      <span class="task-delete glyphicon glyphicon-remove" ng-show="hover" ng-click="deleteTask(task)"></span>
+    </p>
+    <p>
+      <small>
+        <span class="task-session">{{task.workSessions}} required session<span ng-if="task.workSessions != 1">s</span></span>
+      </small>
+      <span class="task-complete glyphicon glyphicon-ok" ng-if="task.complete"></span>
+    </p>
+  </div>
+</div>
